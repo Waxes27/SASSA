@@ -9,10 +9,11 @@ Roll out, Adoptions
 balance = 1800
 
 print("Welcome to HA!\n")
-ID = input("Please enter 13-Digit ID number: ")
-while len(ID) != 13:
-    ID = input("Please enter 13-Digit ID number: ")
+
 def identification():
+    ID = input("Please enter 13-Digit ID number: ")
+    while len(ID) != 13:
+        ID = input("Please enter 13-Digit ID number: ")
 
     age = "".join(list(ID)[0:2])
 
@@ -49,4 +50,11 @@ def options():
 
 
 
-identification()
+def login_():
+    print("Welcome...\n")
+    options = int(input("1. Login\n2. Redeem\n\n"))
+    os.system("clear")
+    if options == 1:
+        identification()        
+
+login_()
