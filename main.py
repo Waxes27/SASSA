@@ -99,16 +99,15 @@ def link(file_):
 
 def pay(file_):
     phoneNumber = input("Please enter phone number to pay: ")
-    phoneNumber2 = input('Please re-enter the phone number to pay: ')
 
     amountToSend = input("Amount you would like to pay: ")
 
-    if phoneNumber == phoneNumber2:
-        test = phone.Phone(phoneNumber,amountToSend)
-        test.sms()
-        time.sleep(3)
-        print(f"User has been paid\n\nYour new balance is: R{balance-int(amountToSend)}")
-    pass
+
+    test = phone.Phone(phoneNumber,amountToSend)
+    test.sms()
+    time.sleep(3)
+    print(f"User has been paid\n\nYour new balance is: R{balance-int(amountToSend)}")
+    
 
 
 
@@ -121,7 +120,6 @@ def withdraw(file_):
 
 def login_():
     global file_
-    print("Welcome...\n")
     options = int(input("1. Login\n2. Redeem\n3. Exit\n>> "))
     os.system("clear")
     if options == 1:
@@ -134,7 +132,9 @@ def login_():
     return options
 
 option = 0
+
 while option != 3:
+    print()
     option = login_()
 os.system("clear")
-print("Ha!..\n\nCome again soon")
+print("Ha!..\n\nCome again soon.")
