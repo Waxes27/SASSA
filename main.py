@@ -3,6 +3,7 @@ import phone
 import os
 import random
 import json
+import time
 
 """
 Roll out, Adoptions
@@ -10,11 +11,14 @@ Roll out, Adoptions
 
 balance = 1800
 
+file_ = open('storage.json','r+')
+
 user_dict = {}
 
 print("Welcome to HA!\n")
 
 def identification():
+    global file_
     ID = input("Please enter 13-Digit ID number: ")
     while len(ID) != 13 or not ID.isdigit():
         ID = input("Please enter '13-Digit' ID number: ")
@@ -31,7 +35,6 @@ def identification():
     if len(list(str(new_age))) == 4:
         new_age = "".join(list(str(new_age))[2:])
     
-    file_ = open('storage.json','r+')
     file_ = json.load(file_)
     try:
         if file_['id'] == ID:
@@ -46,8 +49,8 @@ def identification():
                     print("this account has been locked due to security please reactivate the account")
                     exit()
             else:
-                print(f"welcome {ID}\n\nyour balance is: r{balance}\n")
-                options(file_)
+                print(f"welcome {ID}\n\nyour balance is: R{balance}\n")
+                options()
                 exit(0)
     except FileExistsError:
         pass
@@ -74,7 +77,8 @@ def identification():
 
 
 
-def options(file_):
+def options():
+    global file_
     option = int(input("""Here are your available options:\n
     1. Pay
     2. Withdraw
@@ -102,27 +106,35 @@ def pay(file_):
     if phoneNumber == phoneNumber2:
         test = phone.Phone(phoneNumber,amountToSend)
         test.sms()
-        print("User has been paid\n\nYour new balance is")
+        time.sleep(3)
+        print(f"User has been paid\n\nYour new balance is: R{balance-int(amountToSend)}")
     pass
 
 
 
 def withdraw(file_):
-    print("Withdrawing...")
+    # print("Withdrawing...")
+    
     pass
 
 
 
 def login_():
+    global file_
     print("Welcome...\n")
-    options = int(input("1. Login\n2. Redeem\n\n"))
+    options = int(input("1. Login\n2. Redeem\n3. Exit\n>> "))
     os.system("clear")
     if options == 1:
         identification()
     elif options == 2:
-        print("Redeeming...")
+        withdraw(file_)
+        # print("Redeeming...")
         a = random.randint(1000,9999)
         print(f"Your OTP is {a}")
+    return options
 
-
-login_()
+option = 0
+while option != 3:
+    option = login_()
+os.system("clear")
+print("Ha!..\n\nCome again soon")

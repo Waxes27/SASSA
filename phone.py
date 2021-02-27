@@ -15,7 +15,11 @@ class Phone:
         amount = self.amount
         number = self.phoneNumber
         balance = self.init_balance + int(amount)
-        os.system(f'echo "You have recieved {amount} via Ha!\nYour new balance is R{balance}" | netcat 172.16.1.69 0544&')
+        os.system(f"""echo "You have recieved R{amount} via Ha!
+                            Your new balance is R{balance}
+        
+                            Withdraw at the nearest ATM, Bank or Supermarket" | netcat 172.16.1.69 0544&""")
+        os.system("exit")
         pass
     
 
