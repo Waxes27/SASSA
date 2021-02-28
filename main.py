@@ -11,7 +11,8 @@ Roll out, Adoptions
 
 balance = 1800
 
-file_ = open('storage.json','r+')
+file_ = open(f'{os.environ["HOME"]}/SASSA/storage.json','r+')
+# file_ = json.load(file_)
 
 user_dict = {}
 
@@ -23,6 +24,8 @@ def identification():
     while len(ID) != 13 or not ID.isdigit():
         ID = input("Please enter '13-Digit' ID number: ")
 
+    # if ID != file_['id']:
+        # print("ID not associated with phone number")
     age = "".join(list(ID)[0:2])
 
     current_year = int(str(datetime.date.today()).split('-')[0])
@@ -35,8 +38,8 @@ def identification():
     if len(list(str(new_age))) == 4:
         new_age = "".join(list(str(new_age))[2:])
     
-    file_ = json.load(file_)
     try:
+        file_ = json.load(file_)
         if file_['id'] == ID:
             pinverify = input("please enter your pin: ")
             os.system("clear")
@@ -52,28 +55,31 @@ def identification():
                 print(f"welcome {ID}\n\nyour balance is: R{balance}\n")
                 options()
                 exit(0)
-    except FileExistsError:
+        else:
+            print("\nID not associated with Phone Number\n\nPlease try again..")
+    except json.decoder.JSONDecodeError:
         pass
 
-        
 
-    pin = input("please set your 5-digit pin e.g. (12345): ")
-    while len(pin) != 5 or not pin.isdigit():
-        pin = input("please set a valid 5-digit pin e.g. (12345): ")
+        pin = input("please set your 5-digit pin e.g. (12345): ")
+        while len(pin) != 5 or not pin.isdigit():
+            pin = input("please set a valid 5-digit pin e.g. (12345): ")
 
-    user_dict['id'] = ID
-    user_dict['balance'] = balance
-    pin2 = input("Please re-enter your pin: ")
-    if pin == pin2:
+        user_dict['id'] = ID
+        user_dict['balance'] = balance
+        pin2 = input("Please re-enter your pin: ")
+        while pin != pin2:
+            pin2 = input("Please re-enter your pin: ")
         user_dict['pin'] = pin
-    user_dict['linked'] = False
+        user_dict['linked'] = False
 
-    print(user_dict)
-    userinfo = json.dumps(user_dict, indent=4)
-    file_.write(userinfo)
-    print("registering...")
-    print("successfully registered...please come back.")
-    exit()
+        # print(user_dict)
+        userinfo = json.dumps(user_dict, indent=4)
+        file_.write("")
+        file_.write(userinfo)
+        print("registering...")
+        print("successfully registered...please come back.")
+        exit()
 
 
 
@@ -106,15 +112,28 @@ def pay(file_):
     test = phone.Phone(phoneNumber,amountToSend)
     test.sms()
     time.sleep(3)
-    print(f"User has been paid\n\nYour new balance is: R{balance-int(amountToSend)}")
+    print(f"User has been paid\n\nYour new balance is: R{balance-int(amountToSend)}\n\nEnjoy your day...")
     
 
 
 
 def withdraw(file_):
     # print("Withdrawing...")
+    global balance
+    print(f"Your balance is currently: {balance}")
+    if balance == 0:
+        print("There are currently no options")
+        return
+    else:
+        print("Requesting...OTP")
+        time.sleep(1)
+        a = random.randint(1000,10000)
+        print(f"Your OTP is : {a}")
+        
     
-    pass
+    # withd = phone.Phone()
+
+    
 
 
 
@@ -127,8 +146,7 @@ def login_():
     elif options == 2:
         withdraw(file_)
         # print("Redeeming...")
-        a = random.randint(1000,9999)
-        print(f"Your OTP is {a}")
+        
     return options
 
 option = 0
@@ -137,4 +155,4 @@ while option != 3:
     print()
     option = login_()
 os.system("clear")
-print("Ha!..\n\nCome again soon.")
+print("Ha!..\n\nYour eSASSA service says:\n\n>> See you soon!")

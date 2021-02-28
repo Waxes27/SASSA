@@ -18,9 +18,11 @@ class Phone:
         os.system(f"""echo "You have recieved R{amount} via Ha!
 Your new balance is R{balance}
 
-Withdraw at the nearest ATM, Bank or Supermarket" | netcat 172.16.1.69 0544&""")
+Withdraw at the nearest ATM, Bank or Supermarket" | netcat 172.16.16.241 02114&""")
         # os.system("exit")
         pass
+    # def balanceCheck():
+    
     
 
 
